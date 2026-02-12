@@ -564,6 +564,7 @@ input_args = {
         "long": "--contrast",
         "args": {
             "type": float,
+            "default": 1,
             "help": "Contrast value. Keep this value positive and less than 2 (most likely). It is a multiplication of the actual pixel values so for anything above 127 a contrast of 2 would clip.",
         },
     },
@@ -573,6 +574,7 @@ input_args = {
         "long": "--brightness",
         "args": {
             "type": int,
+            "default": 0,
             "help": "Brightness value. Keep this value between -255 and 255 for 8bit, probaly much less i.e. +/20. It is a simple addition to the pixel values.",
         },
     },
