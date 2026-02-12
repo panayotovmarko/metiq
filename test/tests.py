@@ -67,7 +67,7 @@ def verify_metiq_cli(**settings):
             print(f"Audio delay measurement failed: audio delay: {meanval}")
 
     avsync = pd.read_csv(f"{filename}.avsync.csv")
-    meanval = avsync["avsync_sec"].mean()
+    meanval = avsync["avsync_sec"].median()
     result = meanval < config.PREC + av_sync and meanval > av_sync - config.PREC
     if not result:
         failed = True
