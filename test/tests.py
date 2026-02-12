@@ -66,7 +66,7 @@ def verify_metiq_cli(**settings):
             print(f"Audio delay measurement failed: audio delay: {meanval}")
 
     avsync = pd.read_csv(f"{filename}.avsync.csv")
-    meanval = avsync["av_sync_sec"].mean()
+    meanval = avsync["avsync_sec"].mean()
     result = meanval < config.PREC + av_sync and meanval > av_sync - config.PREC
     if not result:
         failed = True
@@ -76,8 +76,9 @@ def verify_metiq_cli(**settings):
         print(f"{filename}")
         print(f"!!! FAILED\n---\n")
         # Keep files if broken test
-        print(f"Video latency:\n{videolat}")
-        print(f"Audio latency:\n{audiolat}")
+        if video_delay > 0:
+            print(f"Video latency:\n{videolat}")
+            print(f"Audio latency:\n{audiolat}")
         print(f"A/V sync:\n{avsync}")
         return False
     else:
