@@ -69,8 +69,8 @@ def calculate_value_read_smoothed(video_results, ref_fps=30):
     Calculate smoothed value_read, only correcting frames with reading errors.
 
     This function detects reading errors by checking local consistency:
-    - If a frame's value_read is a duplicate of its neighbor, it's likely an error
-    - If a frame's value_read creates a gap (prev+2 == next but curr != prev+1), it's an error
+    - If a frame's value_read doesn't match the expected value based on timestamp
+    - If a frame's value_read creates a gap (prev+2 == next but curr != prev+1)
 
     Only frames with detected errors are corrected using timestamp-based calculation.
     Frames with consistent value_read sequences are left unchanged.
@@ -96,7 +96,10 @@ def calculate_value_read_smoothed(video_results, ref_fps=30):
     # value_read = ref_fps * timestamp + intercept
     timestamps = valid_data["timestamp"].values
     values = valid_data["value_read"].values
-    intercept = np.mean(values - ref_fps * timestamps)
+    residuals = values - ref_fps * timestamps
+    # Use median instead of mean to be robust against outliers from
+    # frozen frames, black frames, or other distortions
+    intercept = np.median(residuals)
 
     # Calculate expected values for all frames
     expected_values = np.round(ref_fps * video_results["timestamp"] + intercept)
@@ -123,25 +126,22 @@ def calculate_value_read_smoothed(video_results, ref_fps=30):
 
             expected_val = int(expected_values[i])
 
-            # Check for reading errors:
-            # 1. Duplicate: current equals previous (should be prev+1)
-            is_duplicate = curr_val == prev_val
+            # Check for reading errors by comparing against expected value.
+            # A frame is considered an error if it doesn't match the
+            # timestamp-based expected value AND the neighbors suggest
+            # a local inconsistency.
 
-            # 2. Shifted: current doesn't match expected AND there's a gap after
-            #    (indicates curr was shifted due to an earlier duplicate)
-            is_shifted = (curr_val != expected_val) and (next_val > curr_val + 1)
+            # 1. Value doesn't match expected and neighbors are consistent
+            is_error = (curr_val != expected_val) and (
+                prev_val == int(expected_values[i - 1])
+                or next_val == int(expected_values[i + 1])
+            )
 
-            # 3. Gap: prev and next differ by 2 but current doesn't fit
+            # 2. Gap: prev and next differ by 2 but current doesn't fit
             is_gap = (next_val - prev_val == 2) and (curr_val != prev_val + 1)
 
-            if is_duplicate or is_shifted or is_gap:
-                # This frame has a reading error - calculate the corrected value
-                # For duplicates, use prev+1 to ensure monotonic increase
-                # For other errors, use timestamp-based expected value
-                if is_duplicate:
-                    corrected_val = prev_val + 1
-                else:
-                    corrected_val = expected_val
+            if is_error or is_gap:
+                corrected_val = expected_val
 
                 if corrected_val != curr_val:
                     video_results.at[video_results.index[i], "value_read_smoothed"] = (
@@ -483,8 +483,8 @@ def match_video_to_audio_timestamp(
         print(f"Warning. No match for {audio_timestamp} is found")
         return None
 
-    # sort by time difference
-    closematch = closematch.sort_values("distance_frames")
+    # sort by frame distance, then by timestamp for ties (pick earliest frame)
+    closematch = closematch.sort_values(["distance_frames", "timestamp"])
     closematch.bfill(inplace=True)
     best_match = closematch.iloc[0]
 
