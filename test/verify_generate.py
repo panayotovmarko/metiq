@@ -5,6 +5,7 @@ script_dir = os.path.dirname(__file__)
 metiq_path = f"{script_dir}/../src"
 sys.path.append(metiq_path)
 
+import _version
 import common
 import video_generate
 import audio_generate
@@ -144,17 +145,20 @@ def generate_test_file(**settings):
             actual_frame_num = int(frame_num % frame_period)
             gray_num = graycode.tc_to_gray_code(actual_frame_num)
             num_bits = math.ceil(math.log2(num_frames))
+            text0 = f"version: {_version.__version__} vft_id: {vft_id} url: {common.METIQ_URL}"
             text1 = f"id: {metiq_id} frame: {actual_frame_num} time: {time:.03f} gray_num: {gray_num:0{num_bits}b}"
             text2 = f"fps: {fps:.2f} resolution: {img.shape[1]}x{img.shape[0]} {rem}"
             beep_color = (frame_num % BEEP_PERIOD_FRAMES) == 0
             img = video_generate.image_generate(
                 image_info,
                 actual_frame_num,
+                text0,
                 text1,
                 text2,
                 beep_color,
                 font,
                 vft_id,
+                1.0,
                 DEBUG,
             )
             old_frame = write_frame(
