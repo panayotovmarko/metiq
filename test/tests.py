@@ -6,8 +6,9 @@ import inspect
 import os
 import sys
 
-script_dir = os.path.dirname(__file__)
+script_dir = os.path.dirname(__file__) or "."
 metiq_path = f"{script_dir}/../src"
+test_results_dir = f"{script_dir}/test_results"
 sys.path.append(metiq_path)
 sys.path.append(script_dir)
 import glob
@@ -96,6 +97,10 @@ def verify_metiq_cli(**settings):
 
 class E2ETests(unittest.TestCase):
 
+    @classmethod
+    def setUpClass(cls):
+        os.makedirs(test_results_dir, exist_ok=True)
+
     def test_1(self):
         """
         Plain file with no delays and perfect a/v sync. File @ 60fps
@@ -105,7 +110,7 @@ class E2ETests(unittest.TestCase):
         descr = f"{inspect.currentframe().f_code.co_name}"
 
         settings = {
-            "outfile": f"{descr}.mov",
+            "outfile": f"{test_results_dir}/{descr}.mov",
             "descr": f"{descr}",
             "output_fps": 60,
             "video_delay": video,
@@ -125,7 +130,7 @@ class E2ETests(unittest.TestCase):
         video = 0.0
         descr = f"{inspect.currentframe().f_code.co_name}"
         settings = {
-            "outfile": f"{descr}.mov",
+            "outfile": f"{test_results_dir}/{descr}.mov",
             "descr": f"{descr}",
             "output_fps": 60,
             "video_delay": video,
@@ -146,7 +151,7 @@ class E2ETests(unittest.TestCase):
         offset = 0.030
         descr = f"{inspect.currentframe().f_code.co_name}"
         settings = {
-            "outfile": f"{descr}.mov",
+            "outfile": f"{test_results_dir}/{descr}.mov",
             "descr": f"{descr}",
             "output_fps": 60,
             "video_delay": video,
@@ -167,7 +172,7 @@ class E2ETests(unittest.TestCase):
         video = 0.0
         descr = f"{inspect.currentframe().f_code.co_name}"
         settings = {
-            "outfile": f"{descr}.mov",
+            "outfile": f"{test_results_dir}/{descr}.mov",
             "descr": f"{descr}",
             "output_fps": 60,
             "video_delay": video,
@@ -189,7 +194,7 @@ class E2ETests(unittest.TestCase):
         descr = f"{inspect.currentframe().f_code.co_name}"
 
         settings = {
-            "outfile": f"{descr}.mov",
+            "outfile": f"{test_results_dir}/{descr}.mov",
             "descr": "vd.100ms",
             "output_fps": 60,
             "video_delay": video,
@@ -209,7 +214,7 @@ class E2ETests(unittest.TestCase):
         video = 0.100
         descr = f"{inspect.currentframe().f_code.co_name}"
         settings = {
-            "outfile": f"{descr}.mov",
+            "outfile": f"{test_results_dir}/{descr}.mov",
             "descr": f"{descr}",
             "output_fps": 60,
             "video_delay": video,
@@ -226,7 +231,7 @@ class E2ETests(unittest.TestCase):
         # In 60 fps number scheme
         black_frames = [*range(15, 20), *range(70, 74)]
         settings = {
-            "outfile": f"{descr}.mov",
+            "outfile": f"{test_results_dir}/{descr}.mov",
             "descr": f"{descr}",
             "output_fps": 60,
             "video_delay": video,
@@ -248,7 +253,7 @@ class E2ETests(unittest.TestCase):
         # In 60 fps number scheme
         frames = [*range(160, 190)]
         settings = {
-            "outfile": f"{descr}.mov",
+            "outfile": f"{test_results_dir}/{descr}.mov",
             "descr": f"{descr}",
             "output_fps": 60,
             "video_delay": video,
@@ -270,7 +275,7 @@ class E2ETests(unittest.TestCase):
         # In 60 fps number scheme
         frames = [*range(160, 190)]
         settings = {
-            "outfile": f"{descr}.mov",
+            "outfile": f"{test_results_dir}/{descr}.mov",
             "descr": f"{descr}",
             "output_fps": 60,
             "video_delay": video,
@@ -292,7 +297,7 @@ class E2ETests(unittest.TestCase):
         # In 60 fps number scheme
         frames = [*range(160, 190)]
         settings = {
-            "outfile": f"{descr}.mov",
+            "outfile": f"{test_results_dir}/{descr}.mov",
             "descr": f"{descr}",
             "output_fps": 60,
             "video_delay": video,
@@ -315,7 +320,7 @@ class E2ETests(unittest.TestCase):
         # In 60 fps number scheme
         frames = [*range(160, 190)]
         settings = {
-            "outfile": f"{descr}.mov",
+            "outfile": f"{test_results_dir}/{descr}.mov",
             "descr": f"{descr}",
             "output_fps": 60,
             "video_delay": video,
@@ -336,7 +341,7 @@ class E2ETests(unittest.TestCase):
         offset = 0.5
         descr = f"{inspect.currentframe().f_code.co_name}"
         settings = {
-            "outfile": f"{descr}.mov",
+            "outfile": f"{test_results_dir}/{descr}.mov",
             "descr": f"{descr}",
             "output_fps": 60,
             "video_delay": video,
