@@ -120,7 +120,7 @@ class E2ETests(unittest.TestCase):
         vg.generate_test_file(**settings)
         run_metiq_cli(**settings)
 
-        verify_metiq_cli(**settings)
+        self.assertTrue(verify_metiq_cli(**settings))
 
     def test_2(self):
         """
@@ -140,7 +140,7 @@ class E2ETests(unittest.TestCase):
         vg.generate_test_file(**settings)
         run_metiq_cli(**settings)
 
-        verify_metiq_cli(**settings)
+        self.assertTrue(verify_metiq_cli(**settings))
 
     def test_3(self):
         """
@@ -162,7 +162,7 @@ class E2ETests(unittest.TestCase):
         vg.generate_test_file(**settings)
         run_metiq_cli(**settings)
 
-        verify_metiq_cli(**settings)
+        self.assertTrue(verify_metiq_cli(**settings))
 
     def test_4(self):
         """
@@ -182,7 +182,7 @@ class E2ETests(unittest.TestCase):
         vg.generate_test_file(**settings)
         run_metiq_cli(**settings)
 
-        verify_metiq_cli(**settings)
+        self.assertTrue(verify_metiq_cli(**settings))
 
     def test_5(self):
         """
@@ -204,7 +204,7 @@ class E2ETests(unittest.TestCase):
         vg.generate_test_file(**settings)
         run_metiq_cli(**settings)
 
-        verify_metiq_cli(**settings)
+        self.assertTrue(verify_metiq_cli(**settings))
 
     def test_6(self):
         """
@@ -220,6 +220,10 @@ class E2ETests(unittest.TestCase):
             "video_delay": video,
             "audio_delay": audio,
         }
+        vg.generate_test_file(**settings)
+        run_metiq_cli(**settings)
+
+        self.assertTrue(verify_metiq_cli(**settings))
 
     def test_7(self):
         """
@@ -241,7 +245,7 @@ class E2ETests(unittest.TestCase):
         vg.generate_test_file(**settings)
         run_metiq_cli(**settings)
 
-        verify_metiq_cli(**settings)
+        self.assertTrue(verify_metiq_cli(**settings))
 
     def test_8(self):
         """
@@ -263,7 +267,7 @@ class E2ETests(unittest.TestCase):
         vg.generate_test_file(**settings)
         run_metiq_cli(**settings)
 
-        verify_metiq_cli(**settings)
+        self.assertTrue(verify_metiq_cli(**settings))
 
     def test_9(self):
         """
@@ -285,7 +289,7 @@ class E2ETests(unittest.TestCase):
         vg.generate_test_file(**settings)
         run_metiq_cli(**settings)
 
-        verify_metiq_cli(**settings)
+        self.assertTrue(verify_metiq_cli(**settings))
 
     def test_10(self):
         """
@@ -308,7 +312,7 @@ class E2ETests(unittest.TestCase):
         vg.generate_test_file(**settings)
         run_metiq_cli(**settings)
 
-        verify_metiq_cli(**settings)
+        self.assertTrue(verify_metiq_cli(**settings))
 
     def test_11(self):
         """
@@ -330,7 +334,7 @@ class E2ETests(unittest.TestCase):
         vg.generate_test_file(**settings)
         run_metiq_cli(**settings)
 
-        verify_metiq_cli(**settings)
+        self.assertTrue(verify_metiq_cli(**settings))
 
     def test_12(self):
         """
@@ -351,8 +355,8 @@ class E2ETests(unittest.TestCase):
         vg.generate_test_file(**settings)
         run_metiq_cli(**settings)
 
-        verify_metiq_cli(**settings)
+        self.assertTrue(verify_metiq_cli(**settings))
 
 
 if __name__ == "__main__":
-    unittest.main()
+    unittest.main(failfast=True)
