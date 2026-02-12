@@ -201,6 +201,7 @@ class E2ETests(unittest.TestCase):
             "audio_delay": audio,
             "audio_offset": offset,
         }
+
         vg.generate_test_file(**settings)
         run_metiq_cli(**settings)
 
@@ -220,6 +221,7 @@ class E2ETests(unittest.TestCase):
             "video_delay": video,
             "audio_delay": audio,
         }
+
         vg.generate_test_file(**settings)
         run_metiq_cli(**settings)
 
@@ -242,6 +244,7 @@ class E2ETests(unittest.TestCase):
             "audio_delay": audio,
             "black_frames": black_frames,
         }
+
         vg.generate_test_file(**settings)
         run_metiq_cli(**settings)
 
@@ -264,6 +267,7 @@ class E2ETests(unittest.TestCase):
             "audio_delay": audio,
             "black_frames": frames,
         }
+
         vg.generate_test_file(**settings)
         run_metiq_cli(**settings)
 
@@ -286,6 +290,7 @@ class E2ETests(unittest.TestCase):
             "audio_delay": audio,
             "black_frames": frames,
         }
+
         vg.generate_test_file(**settings)
         run_metiq_cli(**settings)
 
@@ -331,6 +336,7 @@ class E2ETests(unittest.TestCase):
             "audio_delay": audio,
             "freeze_frames": frames,
         }
+
         vg.generate_test_file(**settings)
         run_metiq_cli(**settings)
 
@@ -352,6 +358,7 @@ class E2ETests(unittest.TestCase):
             "audio_delay": audio,
             "audio_offset": offset,
         }
+
         vg.generate_test_file(**settings)
         run_metiq_cli(**settings)
 
